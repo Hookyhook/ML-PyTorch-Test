@@ -1,4 +1,3 @@
-import numpy
 import torch
 from torch import nn
 from torch.utils.data import DataLoader
@@ -42,11 +41,11 @@ class NeuralNetwork(nn.Module):
         super().__init__()
         self.flatten = nn.Flatten()
         self.linear_relu_stack = nn.Sequential(
-            nn.Linear(28 * 28, 16),
+            nn.Linear(28 * 28, 20),
             nn.Tanh(),
-            nn.Linear(16, 16),
+            nn.Linear(20, 20),
             nn.Tanh(),
-            nn.Linear(16, 16),
+            nn.Linear(20, 16),
             nn.Tanh(),
             nn.Linear(16, 10),
         )
@@ -144,13 +143,13 @@ def train(dataloader, model, loss_fn, optimizer):
                     ax_last_guess.set_title(title)
                     ax_last_guess.axis('off')
 
-                # Display last wrong guesses on the plot
+                # Display last correct guesses on the plot
                 for i, (image, predicted, target) in enumerate(last_wrong_guesses, 1):
                     ax = ax_last_wrong_guesses[i-1]
                     image = image.squeeze().cpu().numpy()  # Assuming image is a torch.Tensor
                     ax.imshow(image, cmap='gray')
                     ax.set_title(f'P:{predicted} T:{target}')
-        plt.pause(0.001)  # Pause to update plot
+        plt.pause(0.0001)  # Pause to update plot
 
 
 def test(dataloader, model, loss_fn):
